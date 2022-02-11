@@ -213,6 +213,20 @@ pub(crate) fn paste(segments: &[Segment]) -> Result<String> {
                         }
                         evaluated.push(acc);
                     }
+                    "capitalize" => {
+                        let mut chars = last.chars();
+                        evaluated.push(match chars.next() {
+                            Some(c) => c.to_uppercase().chain(chars).collect(),
+                            None => String::new(),
+                        })
+                    }
+                    "uncapitalize" => {
+                        let mut chars = last.chars();
+                        evaluated.push(match chars.next() {
+                            Some(c) => c.to_lowercase().chain(chars).collect(),
+                            None => String::new(),
+                        })
+                    }
                     _ => {
                         return Err(Error::new2(
                             colon.span,
